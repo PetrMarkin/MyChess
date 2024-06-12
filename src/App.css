@@ -1,0 +1,147 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "PT Serif", serif;
+}
+
+.app {
+  width: 100vw;
+  height: calc(100vh - 70px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-image: url('./assets/chess-wrapp.jpeg');
+  background-size: cover;
+}
+
+.header {
+  width: 100%;
+  height: 70px;
+  background-color: rgba(127, 171, 122, 1);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  padding: 10px 30px;
+}
+
+.logo-img {
+  background-image: url('./assets/king-logo.svg');
+  width: 24px;
+  height: 46px;
+  background-size: contain;
+}
+
+.logo-name {
+  font-size: 30px;
+}
+
+.allboard {
+  width:  calc(64px * 10);
+  height:  calc(64px * 10);
+  display: grid;
+  grid-template-columns: 1fr 8fr 1fr;
+  grid-template-rows: 1fr 8fr 1fr;
+  justify-content: center;
+  align-items: center;
+}
+
+.board {
+  width:  calc(64px * 8);
+  height:  calc(64px * 8);
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cell {
+  border: 1px solid black;
+  width: 62px;
+  height: 62px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cell img {
+  width: 48px;
+  height: 48px;
+}
+
+.cell.selected {
+  background-color: rgba(127, 118, 169, 1);
+}
+
+.black {
+  background-color: rgba(127, 171, 122, 1);
+}
+
+.white {
+  background-color: #eed4ac;
+}
+
+.available {
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background-color: green;
+}
+
+.lost {
+  height: calc(50vh - 95px);
+  padding: 30px;
+  margin-left: 50px;
+  background-color: #eed4ac;
+}
+
+.notation-vert {
+  background-color: #eed4ac;
+  font-weight: bold;
+}
+
+.notation-hor {
+  display: flex;
+  flex-direction: row;
+  background-color: #eed4ac;
+  font-weight: bold;
+}
+
+.btn-restart {
+  width: 100px;
+  height: 40px;
+  background-color: rgba(127, 171, 122, 1);
+  color: white;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+.timer {
+  display: flex;
+  flex-direction: column;
+  color: #eed4ac;
+  gap: 15px;
+  margin-left: 40px;
+}
+
+.moves {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.moves-white,
+.moves-black {
+  display: flex;
+  flex-direction: column;
+}
