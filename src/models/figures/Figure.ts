@@ -1,18 +1,18 @@
 import { Colors } from '../Colors';
 import logo from '../../assets/black-king.png';
 import { Cell } from '../Cell';
-import { NotationList } from './notationList';
+import { Player } from '../Player';
 
 export let movesStr: string;
 
 export enum FigureNames {
-  FIGURE = 'Фигура',
-  KING = 'Король',
-  QUEEN = 'Ферзь',
-  BISHOP = 'Слон',
-  PAWN = 'Пешка',
-  KNIGHT = 'Конь',
-  ROOK = 'Ладья',
+  FIGURE = 'Figure',
+  KING = 'King',
+  QUEEN = 'Queen',
+  BISHOP = 'Bishop',
+  PAWN = 'Pawn',
+  KNIGHT = 'Knight',
+  ROOK = 'Rook',
 }
 
 export class Figure {
@@ -21,14 +21,26 @@ export class Figure {
   cell: Cell;
   name: FigureNames;
   id: number;
+  setWinner!: (player: Player | null) => void;
+  whitePlayer: Player;
+  blackPlayer: Player;
 
-  constructor(color: Colors, cell: Cell) {
+  constructor(
+    color: Colors,
+    cell: Cell,
+    setWinner: (player: Player | null) => void,
+    whitePlayer: Player,
+    blackPlayer: Player
+  ) {
     this.color = color;
     this.cell = cell;
     this.cell.figure = this;
     this.name = FigureNames.FIGURE;
     this.logo = null;
     this.id = Math.random();
+    this.setWinner = setWinner;
+    this.whitePlayer = whitePlayer;
+    this.blackPlayer = blackPlayer;
   }
 
   canMove(target: Cell): boolean {
@@ -37,7 +49,9 @@ export class Figure {
     }
     if (target.figure?.name === FigureNames.KING) {
       if (target.available) {
-        console.log('Шах и мат');
+        this.setWinner(
+          this.color === Colors.WHITE ? this.whitePlayer : this.blackPlayer
+        );
         return false;
       }
     }
@@ -45,18 +59,13 @@ export class Figure {
   }
 
   moveFigure(target: Cell) {
-    movesStr = `${this.name} ${NotationList[target.x]}${8 - target.y}`;
-    // Реально переместить фигуру
-    this.cell.figure = null; // Очистить текущую ячейку
-    this.cell = target; // Переместить фигуру в новую ячейку
-    target.figure = this; // Обновить фигуру в новой ячейке
+    console.log(movesStr);
+    this.cell.figure = null;
+    this.cell = target;
+    target.figure = this;
   }
 
-  ifKingAttacked(target: Cell): boolean {
-    if (target.figure?.name === FigureNames.KING) {
-      console.log('Король под атакой');
-      return true;
-    }
-    return false;
+  isKingUnderAttack(target: Cell): boolean {
+    return target.figure?.name === FigureNames.KING;
   }
 }

@@ -5,6 +5,10 @@ import CellComponent from './CellComponent';
 import { Player } from '../models/Player';
 import VerticalNotation from './VerticalNotaton';
 import HorizontalNotation from './HorizontalNotation';
+import { getReadableNotation } from '../utils/getReadableNotation';
+import { useDispatch } from 'react-redux';
+import { setWhiteMoves } from '../store/whiteMovesSlice';
+import { setBlackMoves } from '../store/blackMovesSlice';
 
 interface BoardProps {
   board: Board;
@@ -20,6 +24,7 @@ const BoardComponent: FC<BoardProps> = ({
   swapPlayer,
 }) => {
   const [selectedCell, setSelectedCell] = useState<Cell | null>(null);
+  const dispatch = useDispatch();
 
   function click(cell: Cell) {
     if (
@@ -27,6 +32,14 @@ const BoardComponent: FC<BoardProps> = ({
       selectedCell !== cell &&
       selectedCell.figure?.canMove(cell)
     ) {
+      if (currentPlayer?.color) {
+        const move = getReadableNotation(cell, selectedCell.figure.name);
+        if (currentPlayer.color === 'white') {
+          dispatch(setWhiteMoves(move));
+        } else {
+          dispatch(setBlackMoves(move));
+        }
+      }
       selectedCell.moveFigure(cell);
       swapPlayer();
       setSelectedCell(null);
